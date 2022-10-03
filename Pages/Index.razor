@@ -1,0 +1,111 @@
+﻿@page "/"
+
+<h3>Coin Calculator</h3>
+<div class="input-group mb-3">
+    <span class="input-group-text">$</span>
+    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" @bind="InputValue">
+    <button class="btn btn-primary" type="button" @onclick="CalculateCoins">Button</button>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Currency</th>
+      <th scope="col">Number of Coins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">$2 Coins</th>
+      <td>@tow_dollor_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$1 Coins</th>
+      <td>@one_dollor_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.50 Coins</th>
+      <td>@fifty_cents_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.20 Coins</th>
+      <td>@twenty_cents_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.10 Coins</th>
+      <td>@ten_cents_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.05 Coins</th>
+      <td>@five_cents_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.02 Coins</th>
+      <td>@two_cents_coins</td>
+    </tr>
+    <tr>
+      <th scope="row">$0.01 Coins</th>
+      <td>@one_cents_coins</td>
+    </tr>
+  </tbody>
+</table>
+
+@code {
+    private String InputValue { get; set; } = "";
+
+    int tow_dollor_coins = 0;
+    int one_dollor_coins = 0;
+    int fifty_cents_coins = 0;
+    int twenty_cents_coins = 0;
+    int ten_cents_coins = 0;
+    int five_cents_coins = 0;
+    int two_cents_coins = 0;
+    int one_cents_coins = 0;
+
+    public void CalculateCoins()
+    {
+        int dollor_part = 0;
+        int cents_part = 0;
+
+        if (InputValue.Contains("."))
+        {
+            string[] parts = InputValue.Split('.');
+            dollor_part = int.Parse(parts[0]);
+            cents_part = int.Parse(parts[1]);
+
+            if(parts[1].Length == 1) {
+                cents_part *= 10;
+            }
+
+            if(parts[1].Length > 2) {
+                dollor_part += cents_part/100;
+                cents_part = cents_part%100;
+            }
+        }
+        else {
+            dollor_part = int.Parse(InputValue);
+        }
+
+        if (dollor_part != 0)
+        {
+            tow_dollor_coins = dollor_part / 2;
+            dollor_part = dollor_part % 2;
+            one_dollor_coins = dollor_part;
+        }
+
+        if (cents_part != 0)
+        {
+            fifty_cents_coins = cents_part / 50;
+            cents_part = cents_part % 50;
+            twenty_cents_coins = cents_part / 20;
+            cents_part = cents_part % 20;
+            ten_cents_coins = cents_part / 10;
+            cents_part = cents_part % 10;
+            five_cents_coins = cents_part / 5;
+            cents_part = cents_part % 5;
+            two_cents_coins = cents_part / 2;
+            cents_part = cents_part % 2;
+            one_cents_coins = cents_part;
+        }
+    }
+}

@@ -70,7 +70,7 @@
     if (InputValue.Contains("."))
     {
       string[] parts = InputValue.Split('.');
-      dollor_part = int.Parse(parts[0]);
+      dollor_part = parts[0] == "" ? 0 : int.Parse(parts[0]);
 
       if (parts[1].Length == 1)
       {
@@ -91,6 +91,9 @@
       dollor_part = int.Parse(InputValue);
     }
 
+    Console.WriteLine("Dollor Part" + dollor_part);
+    Console.WriteLine("Cents Part" + cents_part);
+    
 
     tow_dollor_coins = dollor_part / 2;
     dollor_part = dollor_part % 2;
